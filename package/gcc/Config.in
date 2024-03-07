@@ -1,5 +1,9 @@
 comment "GCC Target Options"
 
+config BR2_PACKAGE_GCC_FINAL
+	bool
+	default y if BR2_TOOLCHAIN_BUILDROOT
+
 config BR2_PACKAGE_GCC_TARGET
 	bool "gcc"
 	depends on BR2_TOOLCHAIN_BUILDROOT
