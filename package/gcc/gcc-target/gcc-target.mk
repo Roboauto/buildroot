@@ -46,6 +46,21 @@ GCC_TARGET_CONF_OPTS += \
         --disable-gcov \
         $(EXTRA_TARGET_GCC_CONFIG_OPTIONS)
 
+ifeq ($(BR2_GCC_ENABLE_GRAPHITE),y)
+GCC_TARGET_DEPENDENCIES += isl
+GCC_TARGET_CONF_OPTS += --with-isl=$(STAGING_DIR)
+else
+GCC_TARGET_CONF_OPTS += --without-isl --without-cloog
+endif
+
+#disable zstd support if not enabled
+ifeq ($(BR2_PACKAGE_ZSTD),y)
+GCC_TARGET_CONF_OPTS += --with-zstd=$(STAGING_DIR)
+GCC_TARGET_DEPENDENCIES += zstd
+else
+GCC_TARGET_CONF_OPTS += --without-zstd
+endif
+
 GCC_TARGET_CONF_ENV = $(HOST_GCC_COMMON_CONF_ENV)
 
 GCC_TARGET_MAKE_OPTS += $(HOST_GCC_COMMON_MAKE_OPTS)

@@ -84,8 +84,7 @@ HOST_GCC_COMMON_CONF_OPTS = \
 	--with-mpc=$(HOST_DIR) \
 	--with-mpfr=$(HOST_DIR) \
 	--with-pkgversion="Buildroot $(BR2_VERSION_FULL)" \
-	--with-bugurl="http://bugs.buildroot.net/" \
-	--without-zstd
+	--with-bugurl="http://bugs.buildroot.net/"
 
 ifeq ($(BR2_REPRODUCIBLE),y)
 HOST_GCC_COMMON_CONF_OPTS += --with-debug-prefix-map=$(BASE_DIR)=buildroot
@@ -135,6 +134,15 @@ HOST_GCC_COMMON_CONF_OPTS += --enable-libquadmath --enable-libquadmath-support
 else
 HOST_GCC_COMMON_CONF_OPTS += --disable-libquadmath --disable-libquadmath-support
 endif
+
+#disable zstd support if not enabled
+ifeq ($(BR2_PACKAGE_HOST_ZSTD), y)
+HOST_GCC_COMMON_CONF_OPTS += --with-zstd=$(HOST_DIR)
+HOST_GCC_COMMON_DEPENDENCIES += host-zstd
+else
+HOST_GCC_COMMON_CONF_OPTS += --without-zstd
+endif
+
 
 # libsanitizer requires wordexp, not in default uClibc config. Also
 # doesn't build properly with musl.

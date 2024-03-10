@@ -12,6 +12,7 @@ config BR2_PACKAGE_GCC_TARGET
 	select BR2_PACKAGE_GMP
 	select BR2_PACKAGE_MPFR
 	select BR2_PACKAGE_MPC
+	select BR2_PACKAGE_ISL
 	help
 	  If you want the target system to be able to run
 	  binutils/gcc and compile native code, say Y here.
