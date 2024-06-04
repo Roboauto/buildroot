@@ -19,9 +19,11 @@ export SFTP := $(call qstrip,$(BR2_SFTP))
 export LOCALFILES := $(call qstrip,$(BR2_LOCALFILES))
 
 # Version of the format of the archives we generate in the corresponding
-# download backend:
-BR_FMT_VERSION_git = -br1
-BR_FMT_VERSION_svn = -br3
+# download backend and post-process:
+BR_FMT_VERSION_git = -git4
+BR_FMT_VERSION_svn = -svn5
+BR_FMT_VERSION_go = -go2
+BR_FMT_VERSION_cargo = -cargo2
 
 DL_WRAPPER = support/download/dl-wrapper
 
@@ -115,7 +117,7 @@ define DOWNLOAD
 		-D '$(DL_DIR)' \
 		-f '$(notdir $(1))' \
 		$(foreach f,$($(2)_HASH_FILES),-H '$(f)') \
-		-n '$($(2)_BASENAME_RAW)' \
+		-n '$($(2)_DL_SUBDIR)-$($(2)_VERSION)' \
 		-N '$($(2)_RAWNAME)' \
 		-o '$($(2)_DL_DIR)/$(notdir $(1))' \
 		$(if $(filter YES,$($(2)_SVN_EXTERNALS)),-r) \
